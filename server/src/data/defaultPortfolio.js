@@ -16,7 +16,7 @@ export const defaultPortfolio = {
       company: "Bizhub Consulting Service Pvt.Ltd",
       location: "Lalitpur, Nepal",
       role: "System Engineer",
-      duration: "Dec 2024 – Present",
+      duration: "Dec 2025 – Present",
       responsibilities: [
         "Administer and optimize SAP HANA databases for 3+ enterprise clients, reducing query response time by 30% and ensuring high availability",
         "Produce 5+ custom Crystal Reports and BI dashboards per quarter; provide end-to-end SAP B1 support across 10+ modules, cutting client downtime by ~40%",
@@ -34,10 +34,10 @@ export const defaultPortfolio = {
     {
       name: "Jarvis — AI Powered Personal Assistant",
       description:
-        "Built a fully offline AI assistant integrating LM Studio's local LLM API to interpret natural language commands, control computer functions, and deliver intelligent suggestions with zero cloud dependency.",
+        "Designed and built a fully offline AI assistant that integrates LM Studio's local LLM API with desktop automation modules for launching apps, managing files, handling reminders, and answering contextual queries. Implemented an intent parsing and command-routing pipeline that combines prompt-based understanding with rule-based safety checks, improving reliability for system-level actions. Structured the assistant with modular tool handlers and local memory so new features can be added quickly while keeping all user data on-device with zero cloud dependency.",
       technologies: ["Python", "LM Studio", "LLM API", "Natural Language Processing"],
-      year: "2024",
-      github: "",
+      year: "2025",
+      github: "https://github.com/ultron0412/Jarvis",
       demo: "",
       imageUrl: "/project-images/jarvis-assistant.svg",
       featured: true,
@@ -46,7 +46,7 @@ export const defaultPortfolio = {
     {
       name: "Heart Disease Prediction — Computer Vision & ML",
       description:
-        "Engineered an AI and LLM powered prediction system trained on ECG images using 3 ML classifiers; achieved 87%+ accuracy and deployed via a Flask web UI for real-time patient risk assessment.",
+        "Engineered an end-to-end heart disease prediction system using ECG image data, including data cleaning, feature engineering, model training, and comparative evaluation across three machine learning classifiers. Achieved 87%+ validation accuracy by tuning preprocessing and model parameters, then integrated prediction outputs into a Flask-based web interface for fast clinical-style risk checks. Added explainable result summaries and confidence reporting so users can interpret predictions more clearly in real-time screening workflows.",
       technologies: [
         "Python",
         "scikit-learn",
@@ -56,8 +56,8 @@ export const defaultPortfolio = {
         "ECG Image Analysis",
         "Computer Vision",
       ],
-      year: "2024 – 2025",
-      github: "",
+      year: "2025 – 2026",
+      github: "https://github.com/ultron0412/Heart-Disease-Prediction-Computer-Vision-ML",
       demo: "",
       imageUrl: "/project-images/heart-disease-prediction.svg",
       featured: true,
@@ -66,14 +66,40 @@ export const defaultPortfolio = {
     {
       name: "AI Resume Generator",
       description:
-        "Built a full-stack AI resume builder integrating a locally hosted LLM via LM Studio, cutting creation time by 80%, with 3+ PDF/DOCX templates and zero cloud dependency.",
+        "Built a full-stack AI resume generation platform that uses a locally hosted LLM through LM Studio to convert user profile inputs into role-targeted resume content with consistent tone and structure. Developed an end-to-end workflow covering guided form capture, AI-assisted section drafting, live editing, and export pipelines for multiple professional PDF/DOCX templates. Reduced resume creation time by around 80% by combining reusable content blocks, template personalization, and fully local inference with no cloud dependency.",
       technologies: ["Python", "React.js", "Node.js", "MongoDB", "LM Studio", "LLM"],
-      year: "2024 – 2025",
+      year: "2025 – 2026",
       github: "",
       demo: "",
       imageUrl: "/project-images/ai-resume-generator.svg",
       featured: true,
       order: 2,
+    },
+    {
+      name: "Personal Expense Tracker",
+      description:
+        "Developed a production-hardened full-stack expense tracker with a React + Vite + Tailwind frontend and a Node.js + Express + MongoDB backend, designed for reliable real-world usage rather than demo-only workflows. Implemented secure JWT-based authentication, categorized transaction management, and Recharts-powered analytics dashboards to give users clear visibility into spending patterns and budget behavior. Strengthened the backend with Helmet, CORS allowlist controls, API rate limiting, compression, and centralized error handling, while adding automated test coverage with Vitest + React Testing Library on the client and Jest + Supertest on the server. Prepared deployment and operations flows with Docker-based production configuration and CI checks that run server tests, client tests, and production builds.",
+      technologies: [
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "Redux Toolkit",
+        "Recharts",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Mongoose",
+        "JWT",
+        "Jest",
+        "Supertest",
+        "Vitest",
+      ],
+      year: "2025 - 2026",
+      github: "",
+      demo: "",
+      imageUrl: "/project-images/personal-expense-tracker.svg",
+      featured: true,
+      order: 3,
     },
   ],
   skills: {

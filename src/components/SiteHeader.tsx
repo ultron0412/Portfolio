@@ -1,91 +1,164 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
-import { cv } from "@/lib/cv";
+import {
+  BadgeCheck,
+  BookOpen,
+  BriefcaseBusiness,
+  FolderKanban,
+  Github,
+  GraduationCap,
+  House,
+  Linkedin,
+  Menu,
+  Moon,
+  Shield,
+  Sparkles,
+  Sun,
+  X,
+} from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { useTheme } from "@/context/ThemeContext";
+import { usePortfolio } from "@/hooks/usePortfolio";
 
-const navItems = [
-  { to: "/", label: "Home" },
-  { to: "/projects", label: "Projects" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
+const sections = [
+  { id: "about", label: "About", icon: House },
+  { id: "experience", label: "Experience", icon: BriefcaseBusiness },
+  { id: "projects", label: "Projects", icon: FolderKanban },
+  { id: "skills", label: "Skills", icon: Sparkles },
+  { id: "education", label: "Education", icon: GraduationCap },
+  { id: "certifications", label: "Certifications", icon: BadgeCheck },
+  { id: "contact", label: "Contact", icon: BookOpen },
 ] as const;
 
+function sanitizeLink(rawLink: string) {
+  if (!rawLink) return "";
+  return rawLink.startsWith("http://") || rawLink.startsWith("https://")
+    ? rawLink
+    : `https://${rawLink}`;
+}
+
 export function SiteHeader() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const { portfolio } = usePortfolio();
+  const { theme, toggleTheme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("about");
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const socialLinks = useMemo(
+    () => ({
+      linkedin: sanitizeLink(portfolio.personal.linkedin),
+      github: sanitizeLink(portfolio.personal.github),
+    }),
+    [portfolio.personal.github, portfolio.personal.linkedin],
+  );
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setIsScrolled(window.scrollY > 22);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return (
-    <header
-      className={`sticky top-0 z-50 transition-all ${
-        scrolled
-          ? "border-b border-border bg-background/80 backdrop-blur-md"
-          : "border-b border-transparent"
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
-        <Link to="/" className="group flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-ember font-display text-sm font-bold text-primary-foreground shadow-lg transition-transform group-hover:scale-105">
-            {cv.initials}
-          </span>
-          <span className="hidden font-display text-sm font-semibold tracking-tight sm:block">
-            {cv.name}
-          </span>
-        </Link>
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
-        <nav className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              className="group relative px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[status=active]:text-foreground"
-            >
-              {item.label}
-              <span className="absolute inset-x-3 -bottom-0.5 h-px scale-x-0 bg-ember transition-transform duration-300 group-hover:scale-x-100 group-data-[status=active]:scale-x-100" />
-            </Link>
-          ))}
-          <Link
-            to="/contact"
-            className="ml-3 inline-flex items-center rounded-md bg-ember px-4 py-2 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:scale-[1.02] hover:shadow-[0_8px_30px_-8px_var(--ember)]"
+        if (visible.length > 0) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      { rootMargin: "-36% 0px -50% 0px", threshold: [0.18, 0.45, 0.8] },
+    );
+
+    sections.forEach((section) => {
+      const element = document.getElementById(section.id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const closeMenu = () => setMenuOpen(false);
+
+  return (
+    <header className="site-header">
+      <motion.div
+        className="profile-head"
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
+        animate={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+      >
+        <h1 className="profile-name">{portfolio.personal.name}</h1>
+        <p className="profile-title">{portfolio.personal.title}</p>
+        <div className="profile-meta">
+          <span>{portfolio.personal.phone}</span>
+          <span>{portfolio.personal.email}</span>
+          <span>{portfolio.personal.location}</span>
+        </div>
+        <div className="profile-links">
+          <a
+            href={socialLinks.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn profile"
           >
-            Hire me
+            <Linkedin size={14} />
+            LinkedIn
+          </a>
+          <a href={socialLinks.github} target="_blank" rel="noreferrer" aria-label="GitHub profile">
+            <Github size={14} />
+            GitHub
+          </a>
+          <Link to="/admin" aria-label="Open admin dashboard">
+            <Shield size={14} />
+            Admin
           </Link>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className={`sticky-nav ${isScrolled ? "is-scrolled" : ""}`}
+        animate={shouldReduceMotion ? {} : { y: isScrolled ? -2 : 0, opacity: 1 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+      >
+        <button
+          type="button"
+          className="menu-toggle"
+          onClick={() => setMenuOpen((current) => !current)}
+          aria-label="Toggle section menu"
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+
+        <nav className={`section-nav ${menuOpen ? "open" : ""}`} aria-label="Page sections">
+          {sections.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className={activeSection === section.id ? "active" : ""}
+              onClick={closeMenu}
+            >
+              <section.icon size={15} />
+              {section.label}
+            </a>
+          ))}
         </nav>
 
         <button
           type="button"
-          aria-label="Toggle menu"
-          onClick={() => setOpen((o) => !o)}
-          className="grid h-10 w-10 place-items-center rounded-md border border-border md:hidden"
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
         >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
         </button>
-      </div>
-
-      {open && (
-        <div className="border-t border-border bg-background/95 backdrop-blur-md md:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col px-5 py-3 sm:px-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                activeOptions={{ exact: item.to === "/" }}
-                onClick={() => setOpen(false)}
-                className="border-b border-border/50 py-3 text-base font-medium text-muted-foreground last:border-0 data-[status=active]:text-ember"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      )}
+      </motion.div>
     </header>
   );
 }

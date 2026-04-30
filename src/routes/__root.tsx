@@ -1,27 +1,28 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-
-import appCss from "../styles.css?url";
-import { SiteHeader } from "@/components/SiteHeader";
+import {
+  Outlet,
+  createRootRoute,
+  HeadContent,
+  Link,
+  Scripts,
+  useRouterState,
+} from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
+import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { FloatingBackground } from "@/components/FloatingBackground";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
+import { useMotionPreference } from "@/hooks/useMotionPreference";
+import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="font-display text-7xl font-bold text-ember">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-ember px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90"
-          >
-            Go home
-          </Link>
-        </div>
-      </div>
+    <div className="layout-shell">
+      <section className="section-card">
+        <h2>404</h2>
+        <p>Page not found.</p>
+        <Link to="/">Return to portfolio</Link>
+      </section>
     </div>
   );
 }
@@ -31,22 +32,13 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Ayush Jung Kunwar — AI/ML & Systems Engineer" },
+      { title: "Ayush Jung Kunwar | Portfolio" },
       {
         name: "description",
-        content:
-          "Portfolio of Ayush Jung Kunwar — AI/ML engineer and systems builder crafting intelligent, reliable software.",
-      },
-      { name: "author", content: "Ayush Jung Kunwar" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
+        content: "Portfolio of Ayush Jung Kunwar - AI/ML Engineer and Full-Stack Developer.",
       },
     ],
+    links: [{ rel: "stylesheet", href: appCss }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -68,13 +60,30 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { shouldReduceMotion } = useMotionPreference();
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <SiteHeader />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <SiteFooter />
-    </div>
+    <ThemeProvider>
+      <AuthProvider>
+        <FloatingBackground />
+        <div className="layout-shell app-shell">
+          <SiteHeader />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.main
+              key={pathname}
+              className="layout-main"
+              initial={{ opacity: 0, y: shouldReduceMotion ? 8 : 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: shouldReduceMotion ? -6 : -14 }}
+              transition={{ duration: shouldReduceMotion ? 0.2 : 0.34, ease: "easeOut" }}
+            >
+              <Outlet />
+            </motion.main>
+          </AnimatePresence>
+          <SiteFooter />
+        </div>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

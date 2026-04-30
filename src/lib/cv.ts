@@ -1,76 +1,249 @@
-export const cv = {
-  name: "Ayush Jung Kunwar",
-  initials: "AJK",
-  roles: ["AI/ML Engineer", "System Engineer", "Builder"],
-  tagline:
-    "Building intelligent systems where AI meets reliable engineering — from voice assistants to predictive healthcare models.",
-  location: "Kathmandu, Nepal",
-  email: "ayush.jung.kunwar@example.com",
-  phone: "+977-98XXXXXXXX",
-  linkedin: "https://linkedin.com/in/ayushjungkunwar",
-  github: "https://github.com/ayushjungkunwar",
+export type PersonalInfo = {
+  name: string;
+  title: string;
+  email: string;
+  phone: string;
+  location: string;
+  linkedin: string;
+  github: string;
+  resumeUrl?: string;
+};
 
+export type ExperienceItem = {
+  _id?: string;
+  company: string;
+  location: string;
+  role: string;
+  duration: string;
+  responsibilities: string[];
+  technologies: string[];
+  order: number;
+};
+
+export type ProjectItem = {
+  _id?: string;
+  name: string;
+  description: string;
+  technologies: string[];
+  year: string;
+  github: string;
+  demo: string;
+  imageUrl?: string;
+  featured: boolean;
+  order: number;
+};
+
+export type EducationItem = {
+  _id?: string;
+  institution: string;
+  location: string;
+  degree: string;
+  duration: string;
+  order: number;
+};
+
+export type CertificationItem = {
+  _id?: string;
+  name: string;
+  issuer: string;
+  date: string;
+  credentialUrl?: string;
+  order: number;
+};
+
+export type Portfolio = {
+  _id?: string;
+  personal: PersonalInfo;
+  summary: string;
+  experience: ExperienceItem[];
+  projects: ProjectItem[];
+  skills: Record<string, string[]>;
+  education: EducationItem[];
+  certifications: CertificationItem[];
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type AuthUser = {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+};
+
+export const cv: Portfolio = {
+  personal: {
+    name: "Ayush Jung Kunwar",
+    title: "AI / ML Engineer · Full-Stack Developer · System Engineer",
+    email: "ayushjung.kunwar369@gmail.com",
+    phone: "+977 9868491112",
+    location: "Sanepa, Lalitpur, Nepal",
+    linkedin: "linkedin.com/in/ayush-jung-kunwar-169733276",
+    github: "github.com/ultron0412",
+    resumeUrl: "/uploads/Ayush_Jung_Kunwar_CV.docx",
+  },
+  summary:
+    "AI/ML enthusiast and Full-Stack Developer with professional experience in enterprise data systems and AI-powered applications. Proficient in Python, NumPy, Pandas, scikit-learn, and LLM integration. Built computer vision models on ECG images, an intelligent AI assistant using local LLM APIs, and production-grade ML pipelines. Holds 6 Oracle and industry certifications. Pursuing B.E. Computer Engineering at Everest Engineering College.",
   experience: [
     {
-      company: "Bizhub",
+      company: "Bizhub Consulting Service Pvt.Ltd",
+      location: "Lalitpur, Nepal",
       role: "System Engineer",
-      period: "2023 — Present",
-      summary:
-        "Designing, deploying and maintaining enterprise infrastructure. Automating workflows and supporting Oracle-based systems at scale.",
-      bullets: [
-        "Maintained mission-critical systems with high uptime SLAs.",
-        "Automated provisioning and monitoring pipelines.",
-        "Collaborated cross-functionally to resolve complex production incidents.",
+      duration: "Dec 2024 – Present",
+      responsibilities: [
+        "Administer and optimize SAP HANA databases for 3+ enterprise clients, reducing query response time by 30% and ensuring high availability",
+        "Produce 5+ custom Crystal Reports and BI dashboards per quarter; provide end-to-end SAP B1 support across 10+ modules, cutting client downtime by ~40%",
       ],
+      technologies: [
+        "SAP HANA",
+        "SAP Business One",
+        "SAP Crystal Reports",
+        "Database Administration",
+      ],
+      order: 0,
     },
   ],
-
   projects: [
     {
-      title: "Jarvis — Voice AI Assistant",
-      period: "2024",
-      tech: ["Python", "Speech Recognition", "LLMs", "TTS"],
+      name: "Jarvis — AI Powered Personal Assistant",
       description:
-        "A modular voice assistant that listens, reasons and responds in real time. Integrates wake-word detection, LLM-powered intent parsing and natural speech synthesis to handle everyday tasks hands-free.",
-      highlight: true,
+        "Designed and built a fully offline AI assistant that integrates LM Studio's local LLM API with desktop automation modules for launching apps, managing files, handling reminders, and answering contextual queries. Implemented an intent parsing and command-routing pipeline that combines prompt-based understanding with rule-based safety checks, improving reliability for system-level actions. Structured the assistant with modular tool handlers and local memory so new features can be added quickly while keeping all user data on-device with zero cloud dependency.",
+      technologies: ["Python", "LM Studio", "LLM API", "Natural Language Processing"],
+      year: "2024",
+      github: "",
+      demo: "",
+      imageUrl: "/project-images/jarvis-assistant.svg",
+      featured: true,
+      order: 0,
     },
     {
-      title: "Heart Disease Prediction",
-      period: "2024",
-      tech: ["Python", "scikit-learn", "Pandas", "Streamlit"],
+      name: "Heart Disease Prediction — Computer Vision & ML",
       description:
-        "ML pipeline that predicts cardiovascular risk from clinical features. Includes data cleaning, feature engineering, model selection and an interactive demo for clinicians.",
+        "Engineered an end-to-end heart disease prediction system using ECG image data, including data cleaning, feature engineering, model training, and comparative evaluation across three machine learning classifiers. Achieved 87%+ validation accuracy by tuning preprocessing and model parameters, then integrated prediction outputs into a Flask-based web interface for fast clinical-style risk checks. Added explainable result summaries and confidence reporting so users can interpret predictions more clearly in real-time screening workflows.",
+      technologies: [
+        "Python",
+        "scikit-learn",
+        "Pandas",
+        "NumPy",
+        "Flask",
+        "ECG Image Analysis",
+        "Computer Vision",
+      ],
+      year: "2024 – 2025",
+      github: "",
+      demo: "",
+      imageUrl: "/project-images/heart-disease-prediction.svg",
+      featured: true,
+      order: 1,
     },
     {
-      title: "AI Resume Generator",
-      period: "2024",
-      tech: ["Next.js", "OpenAI API", "Tailwind"],
+      name: "AI Resume Generator",
       description:
-        "Generates tailored, role-specific resumes from a short profile and job description. Outputs ATS-friendly markdown and PDF in seconds.",
+        "Built a full-stack AI resume generation platform that uses a locally hosted LLM through LM Studio to convert user profile inputs into role-targeted resume content with consistent tone and structure. Developed an end-to-end workflow covering guided form capture, AI-assisted section drafting, live editing, and export pipelines for multiple professional PDF/DOCX templates. Reduced resume creation time by around 80% by combining reusable content blocks, template personalization, and fully local inference with no cloud dependency.",
+      technologies: ["Python", "React.js", "Node.js", "MongoDB", "LM Studio", "LLM"],
+      year: "2024 – 2025",
+      github: "",
+      demo: "",
+      imageUrl: "/project-images/ai-resume-generator.svg",
+      featured: true,
+      order: 2,
+    },
+    {
+      name: "Personal Expense Tracker",
+      description:
+        "Developed a production-hardened full-stack expense tracker with a React + Vite + Tailwind frontend and a Node.js + Express + MongoDB backend, designed for reliable real-world usage rather than demo-only workflows. Implemented secure JWT-based authentication, categorized transaction management, and Recharts-powered analytics dashboards to give users clear visibility into spending patterns and budget behavior. Strengthened the backend with Helmet, CORS allowlist controls, API rate limiting, compression, and centralized error handling, while adding automated test coverage with Vitest + React Testing Library on the client and Jest + Supertest on the server. Prepared deployment and operations flows with Docker-based production configuration and CI checks that run server tests, client tests, and production builds.",
+      technologies: [
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "Redux Toolkit",
+        "Recharts",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Mongoose",
+        "JWT",
+        "Jest",
+        "Supertest",
+        "Vitest",
+      ],
+      year: "2025 - 2026",
+      github: "",
+      demo: "",
+      imageUrl: "/project-images/personal-expense-tracker.svg",
+      featured: true,
+      order: 3,
     },
   ],
-
   skills: {
-    "AI / ML": ["Python", "scikit-learn", "Pandas", "NumPy", "LLM Integration", "Prompt Engineering"],
-    "Systems": ["Oracle Database", "Linux", "Networking", "Bash", "Monitoring"],
-    "Web": ["React", "Next.js", "TypeScript", "Tailwind", "Node.js"],
-    "Tools": ["Git", "Docker", "Figma", "VS Code"],
-  } as Record<string, string[]>,
-
+    "ML / AI": [
+      "Python",
+      "scikit-learn",
+      "Pandas",
+      "NumPy",
+      "LLMs",
+      "LM Studio",
+      "Computer Vision",
+      "OpenAI API",
+    ],
+    Backend: ["Node.js", "Express.js", "Flask", "REST APIs", "JWT Authentication"],
+    Frontend: ["React.js", "Tailwind CSS", "HTML5", "CSS3", "JavaScript (ES6+)"],
+    Databases: ["MongoDB", "SAP HANA", "MySQL"],
+    Enterprise: ["SAP Business One (B1)", "SAP Crystal Reports"],
+  },
   education: [
     {
-      school: "Tribhuvan University",
-      degree: "BSc. Computer Science & Information Technology",
-      period: "2019 — 2023",
+      institution: "Everest Engineering College, Pokhara University",
+      location: "Kathmandu, Nepal",
+      degree: "Bachelor of Computer Engineering (BE-Computer)",
+      duration: "2022 – Present",
+      order: 0,
     },
   ],
-
   certifications: [
-    { name: "Oracle Cloud Infrastructure Foundations Associate", issuer: "Oracle", year: "2024" },
-    { name: "Oracle Database SQL Certified Associate", issuer: "Oracle", year: "2024" },
-    { name: "Oracle Autonomous Database Cloud Specialist", issuer: "Oracle", year: "2024" },
-    { name: "Oracle Cloud Data Management Foundations", issuer: "Oracle", year: "2023" },
-    { name: "Oracle AI Foundations Associate", issuer: "Oracle", year: "2024" },
-    { name: "Oracle Generative AI Professional", issuer: "Oracle", year: "2024" },
+    {
+      name: "OCI 2025 Certified Generative AI Professional",
+      issuer: "Oracle University",
+      date: "Oct 2025",
+      credentialUrl: "/certificates/genai-pro.pdf",
+      order: 0,
+    },
+    {
+      name: "OCI 2025 Certified AI Foundations Associate",
+      issuer: "Oracle University",
+      date: "Oct 2025",
+      credentialUrl: "/certificates/ai-associate-geai.pdf",
+      order: 1,
+    },
+    {
+      name: "Oracle Data Platform 2025 Foundations Associate",
+      issuer: "Oracle University",
+      date: "Oct 2025",
+      credentialUrl: "/certificates/data-platform.pdf",
+      order: 2,
+    },
+    {
+      name: "MySQL HeatWave Implementation Associate Rel1",
+      issuer: "Oracle University",
+      date: "Oct 2025",
+      credentialUrl: "/certificates/mysql.pdf",
+      order: 3,
+    },
+    {
+      name: "Certified Cybersecurity Associate",
+      issuer: "DanpheLink",
+      date: "2025",
+      credentialUrl: "/certificates/cloud-infra.pdf",
+      order: 4,
+    },
+    {
+      name: "Machine Learning using Python",
+      issuer: "Simplilearn",
+      date: "2025",
+      credentialUrl: "",
+      order: 5,
+    },
   ],
+  isActive: true,
 };

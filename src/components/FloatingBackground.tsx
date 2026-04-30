@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useMotionPreference } from "@/hooks/useMotionPreference";
 
 const orbVariants = {
   one: {
@@ -19,7 +20,7 @@ const orbVariants = {
 };
 
 export function FloatingBackground() {
-  const shouldReduceMotion = useReducedMotion();
+  const { shouldReduceMotion } = useMotionPreference();
 
   if (shouldReduceMotion) {
     return null;

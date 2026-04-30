@@ -1,33 +1,19 @@
 import { Link } from "@tanstack/react-router";
-import {
-  BadgeCheck,
-  BookOpen,
-  BriefcaseBusiness,
-  FolderKanban,
-  Github,
-  GraduationCap,
-  House,
-  Linkedin,
-  Menu,
-  Moon,
-  Shield,
-  Sparkles,
-  Sun,
-  X,
-} from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { Github, Linkedin, Menu, Moon, Shield, Sun, X, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { useMotionPreference } from "@/hooks/useMotionPreference";
 import { useTheme } from "@/context/ThemeContext";
 import { usePortfolio } from "@/hooks/usePortfolio";
 
 const sections = [
-  { id: "about", label: "About", icon: House },
-  { id: "experience", label: "Experience", icon: BriefcaseBusiness },
-  { id: "projects", label: "Projects", icon: FolderKanban },
-  { id: "skills", label: "Skills", icon: Sparkles },
-  { id: "education", label: "Education", icon: GraduationCap },
-  { id: "certifications", label: "Certifications", icon: BadgeCheck },
-  { id: "contact", label: "Contact", icon: BookOpen },
+  { id: "home", label: "Home" },
+  { id: "about_me", label: "About Me" },
+  { id: "services", label: "Education" },
+  { id: "skills", label: "Skills" },
+  { id: "portflio", label: "Projects" },
+  { id: "certifications", label: "Certifications" },
+  { id: "contact", label: "Contact" },
 ] as const;
 
 function sanitizeLink(rawLink: string) {
@@ -40,10 +26,10 @@ function sanitizeLink(rawLink: string) {
 export function SiteHeader() {
   const { portfolio } = usePortfolio();
   const { theme, toggleTheme } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
+  const { shouldReduceMotion, preference, toggleMotion } = useMotionPreference();
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("about");
+  const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
 
   const socialLinks = useMemo(
@@ -72,7 +58,7 @@ export function SiteHeader() {
           setActiveSection(visible[0].target.id);
         }
       },
-      { rootMargin: "-36% 0px -50% 0px", threshold: [0.18, 0.45, 0.8] },
+      { rootMargin: "-38% 0px -48% 0px", threshold: [0.18, 0.44, 0.78] },
     );
 
     sections.forEach((section) => {
@@ -84,48 +70,23 @@ export function SiteHeader() {
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
+  const brandName = useMemo(() => {
+    const firstName = portfolio.personal.name.split(" ")[0]?.trim();
+    return firstName ? `${firstName}.` : "Portfolio.";
+  }, [portfolio.personal.name]);
 
   return (
     <header className="site-header">
       <motion.div
-        className="profile-head"
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
-        animate={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
+        className="header-row"
+        initial={{ opacity: 0, y: shouldReduceMotion ? 8 : 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: shouldReduceMotion ? 0.25 : 0.55, ease: "easeOut" }}
       >
-        <h1 className="profile-name">{portfolio.personal.name}</h1>
-        <p className="profile-title">{portfolio.personal.title}</p>
-        <div className="profile-meta">
-          <span>{portfolio.personal.phone}</span>
-          <span>{portfolio.personal.email}</span>
-          <span>{portfolio.personal.location}</span>
-        </div>
-        <div className="profile-links">
-          <a
-            href={socialLinks.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn profile"
-          >
-            <Linkedin size={14} />
-            LinkedIn
-          </a>
-          <a href={socialLinks.github} target="_blank" rel="noreferrer" aria-label="GitHub profile">
-            <Github size={14} />
-            GitHub
-          </a>
-          <Link to="/admin" aria-label="Open admin dashboard">
-            <Shield size={14} />
-            Admin
-          </Link>
-        </div>
-      </motion.div>
+        <Link to="/" className="brand-mark" aria-label="Go to home">
+          {brandName}
+        </Link>
 
-      <motion.div
-        className={`sticky-nav ${isScrolled ? "is-scrolled" : ""}`}
-        animate={shouldReduceMotion ? {} : { y: isScrolled ? -2 : 0, opacity: 1 }}
-        transition={{ duration: 0.22, ease: "easeOut" }}
-      >
         <button
           type="button"
           className="menu-toggle"
@@ -144,20 +105,45 @@ export function SiteHeader() {
               className={activeSection === section.id ? "active" : ""}
               onClick={closeMenu}
             >
-              <section.icon size={15} />
               {section.label}
             </a>
           ))}
         </nav>
 
-        <button
-          type="button"
-          className="theme-toggle"
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-        >
-          {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
+        <div className={`header-utilities ${isScrolled ? "is-scrolled" : ""}`}>
+          <a href={socialLinks.github} target="_blank" rel="noreferrer" aria-label="GitHub profile">
+            <Github size={14} />
+          </a>
+          <a
+            href={socialLinks.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn profile"
+          >
+            <Linkedin size={14} />
+          </a>
+          <Link to="/admin" aria-label="Open admin dashboard" className="admin-link">
+            <Shield size={14} />
+            Admin
+          </Link>
+          <button
+            type="button"
+            className={`theme-toggle motion-toggle ${preference === "reduced" ? "is-reduced" : "is-full"}`}
+            onClick={toggleMotion}
+            aria-label={`Toggle motion. Currently ${preference}`}
+            title={`Motion: ${preference}`}
+          >
+            <Zap size={18} />
+          </button>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+        </div>
       </motion.div>
     </header>
   );

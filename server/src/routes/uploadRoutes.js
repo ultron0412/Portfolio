@@ -1,11 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { Router } from "express";
 import multer from "multer";
 import { uploadFile } from "../controllers/uploadController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
-const uploadDir = path.resolve(process.cwd(), "server", "uploads");
+const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+const uploadDir = path.resolve(serverRoot, "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }

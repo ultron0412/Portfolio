@@ -7,19 +7,21 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-.output
-.vinxi
-.tanstack/**
-.nitro
+# Dependencies and build outputs
+client/node_modules
+server/node_modules
+client/dist
+client/dist-ssr
+client/.output
+client/.vinxi
+client/.tanstack/**
+client/.nitro
 *.local
-.env
+client/.env
 server/.env
 
 # Wrangler / Cloudflare
-.wrangler/
+client/.wrangler/
 .dev.vars
 
 # Editor directories and files

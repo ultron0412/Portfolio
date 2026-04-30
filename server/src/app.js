@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "node:path";
 import rateLimit from "express-rate-limit";
+import { fileURLToPath } from "node:url";
 import { env } from "./config/env.js";
 import { authRoutes } from "./routes/authRoutes.js";
 import { contactRoutes } from "./routes/contactRoutes.js";
@@ -13,6 +14,7 @@ import { uploadRoutes } from "./routes/uploadRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 
 export const app = express();
+const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 app.use(helmet());
 app.use(
@@ -32,7 +34,7 @@ app.use(
   }),
 );
 
-app.use("/uploads", express.static(path.resolve(process.cwd(), "server", "uploads")));
+app.use("/uploads", express.static(path.resolve(serverRoot, "uploads")));
 
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);

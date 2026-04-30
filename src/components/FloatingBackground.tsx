@@ -26,22 +26,24 @@ export function FloatingBackground() {
   }
 
   return (
-    <div className="floating-background" aria-hidden="true">
-      <motion.span
-        className="floating-orb orb-a"
-        animate={orbVariants.one}
-        transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
-      />
-      <motion.span
-        className="floating-orb orb-b"
-        animate={orbVariants.two}
-        transition={{ repeat: Infinity, duration: 16, ease: "easeInOut" }}
-      />
-      <motion.span
-        className="floating-orb orb-c"
-        animate={orbVariants.three}
-        transition={{ repeat: Infinity, duration: 14, ease: "easeInOut" }}
-      />
+    <div className="large-block" aria-hidden="true">
+      <div id="particles-js" className="floating-background">
+        <motion.span
+          className="floating-orb orb-a"
+          animate={orbVariants.one}
+          transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
+        />
+        <motion.span
+          className="floating-orb orb-b"
+          animate={orbVariants.two}
+          transition={{ repeat: Infinity, duration: 16, ease: "easeInOut" }}
+        />
+        <motion.span
+          className="floating-orb orb-c"
+          animate={orbVariants.three}
+          transition={{ repeat: Infinity, duration: 14, ease: "easeInOut" }}
+        />
+      </div>
     </div>
   );
 }

@@ -1,7 +1,27 @@
 import { cv, type AuthUser, type Portfolio } from "@/lib/cv";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+const DEFAULT_API_BASE_URL = "http://localhost:5000/api";
+
+function normalizeApiBaseUrl(value: string | undefined) {
+  if (!value) return DEFAULT_API_BASE_URL;
+  return value.replace(/\/+$/, "");
+}
+
+export const API_BASE_URL = normalizeApiBaseUrl(
+  import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || DEFAULT_API_BASE_URL,
+);
+
+export const API_ORIGIN = (() => {
+  try {
+    const parsed =
+      typeof window !== "undefined"
+        ? new URL(API_BASE_URL, window.location.origin)
+        : new URL(API_BASE_URL);
+    return parsed.origin;
+  } catch {
+    return "http://localhost:5000";
+  }
+})();
 
 type ApiResponse<T> = {
   data: T;

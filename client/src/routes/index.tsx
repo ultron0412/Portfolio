@@ -17,7 +17,7 @@ import { MotionSection } from "@/components/MotionSection";
 import { useMotionPreference } from "@/hooks/useMotionPreference";
 import { usePortfolio } from "@/hooks/usePortfolio";
 import { type ProjectItem } from "@/lib/cv";
-import { sendContactMessage } from "@/services/portfolioApi";
+import { API_ORIGIN, sendContactMessage } from "@/services/portfolioApi";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -25,6 +25,9 @@ export const Route = createFileRoute("/")({
 
 function normalizeLink(value: string) {
   if (!value) return "";
+  if (value.startsWith("/uploads/")) return `${API_ORIGIN}${value}`;
+  if (value.startsWith("./uploads/")) return `${API_ORIGIN}/${value.replace(/^\.\//, "")}`;
+  if (value.startsWith("uploads/")) return `${API_ORIGIN}/${value}`;
   if (value.startsWith("/") || value.startsWith("./")) return value;
   if (
     value.startsWith("http://") ||

@@ -34,3 +34,4 @@ client/.wrangler/
 *.njsproj
 *.sln
 *.sw?
+*.dist

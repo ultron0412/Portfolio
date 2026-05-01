@@ -3,7 +3,7 @@ services:
     name: my-portfolio-api
     runtime: node
     rootDir: server
-    buildCommand: npm install
+    buildCommand: npm ci
     startCommand: npm run start
     healthCheckPath: /api/health
     autoDeploy: true
@@ -19,4 +19,4 @@ services:
       - key: ADMIN_PASSWORD
         sync: false
       - key: FRONTEND_URL
-        sync: false
+        value: https://ayushjungkunwar.com.np,https://www.ayushjungkunwar.com.np

@@ -25,7 +25,7 @@ Production-ready MERN portfolio for **Ayush Jung Kunwar** with:
 - Backend (`server`): Node.js + Express + MongoDB + Mongoose
 - Security: `helmet`, `cors`, `express-rate-limit`, JWT auth middleware
 
-## Setup
+## Local Setup
 
 1. Install dependencies:
 
@@ -34,7 +34,7 @@ cd client && npm install
 cd ../server && npm install
 ```
 
-2. Create env files:
+2. Create local env files:
 
 ```bash
 copy client\.env.example client\.env
@@ -61,6 +61,63 @@ npm run dev
 cd client
 npm run dev
 ```
+
+## Deployment (Vercel + Render)
+
+### 1. Deploy API to Render
+
+This repo includes [render.yaml](./render.yaml) for backend deployment.
+
+1. In Render, create a new **Blueprint** service from this repo.
+2. Confirm service settings:
+- Root directory: `server`
+- Build command: `npm install`
+- Start command: `npm run start`
+- Health check path: `/api/health`
+3. Set required environment variables on Render:
+- `NODE_ENV=production`
+- `MONGODB_URI=<your production mongo uri>`
+- `JWT_SECRET=<strong random secret>`
+- `JWT_EXPIRE=7d`
+- `ADMIN_PASSWORD=<secure admin password>`
+- `FRONTEND_URL=https://your-vercel-project.vercel.app`
+4. Deploy the service and copy the Render API URL (for example `https://your-api.onrender.com`).
+5. Seed portfolio data once in the deployed database (`npm run seed` with production env values).
+
+### 2. Deploy Frontend to Vercel
+
+1. Import this repo in Vercel.
+2. Set **Root Directory** to `client`.
+3. Add frontend env variable:
+- `VITE_API_URL=https://your-api.onrender.com/api`
+4. Deploy.
+
+`client/vercel.json` is already added for SPA rewrites, so direct route refreshes (for example `/admin`) work in production.
+
+### 3. Finalize CORS
+
+After Vercel gives the final URL/custom domain, update Render:
+- `FRONTEND_URL=https://your-final-domain.com,https://your-vercel-project.vercel.app`
+
+Use comma-separated values if you want multiple allowed origins.
+
+### 4. Post-Deploy Checks
+
+Verify these URLs:
+- `GET https://your-api.onrender.com/api/health`
+- `GET https://your-api.onrender.com/api/portfolio`
+- Frontend load and contact form submission on Vercel
+- Admin login at `https://your-vercel-domain/admin`
+
+## Production Env Templates
+
+- Frontend: [`client/.env.production.example`](./client/.env.production.example)
+- Backend: [`server/.env.production.example`](./server/.env.production.example)
+
+## Upload Storage Note
+
+Uploads are returned as full backend URLs and work with split domains (Vercel + Render).  
+Render local disk is ephemeral by default, so uploaded files can be lost on restart/redeploy. For durable storage, move uploads to object storage (S3/Cloudinary/etc.).
 
 ## Default Admin Login
 

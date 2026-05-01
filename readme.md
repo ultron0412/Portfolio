@@ -64,50 +64,55 @@ npm run dev
 
 ## Deployment (Vercel + Render)
 
+Target production domains:
+- Frontend: `https://ayushjungkunwar.com.np`
+- Frontend alias: `https://www.ayushjungkunwar.com.np`
+- Backend API: `https://api.ayushjungkunwar.com.np`
+
 ### 1. Deploy API to Render
 
-This repo includes [render.yaml](./render.yaml) for backend deployment.
-
-1. In Render, create a new **Blueprint** service from this repo.
-2. Confirm service settings:
+This repo includes [render.yaml](./render.yaml) and is already configured for:
 - Root directory: `server`
-- Build command: `npm install`
+- Build command: `npm ci`
 - Start command: `npm run start`
 - Health check path: `/api/health`
-3. Set required environment variables on Render:
-- `NODE_ENV=production`
+- CORS allowlist: `https://ayushjungkunwar.com.np,https://www.ayushjungkunwar.com.np`
+
+Steps:
+1. In Render, create a new **Blueprint** service from this repo.
+2. Set required secret env vars:
 - `MONGODB_URI=<your production mongo uri>`
 - `JWT_SECRET=<strong random secret>`
-- `JWT_EXPIRE=7d`
 - `ADMIN_PASSWORD=<secure admin password>`
-- `FRONTEND_URL=https://your-vercel-project.vercel.app`
-4. Deploy the service and copy the Render API URL (for example `https://your-api.onrender.com`).
-5. Seed portfolio data once in the deployed database (`npm run seed` with production env values).
+3. Deploy the service.
+4. In Render service settings, add custom domain `api.ayushjungkunwar.com.np`.
+5. In your DNS provider, create the `api` record exactly as Render shows in the custom domain screen.
+6. Seed production data once using Render Shell:
+
+```bash
+npm run seed
+```
 
 ### 2. Deploy Frontend to Vercel
 
-1. Import this repo in Vercel.
-2. Set **Root Directory** to `client`.
-3. Add frontend env variable:
-- `VITE_API_URL=https://your-api.onrender.com/api`
-4. Deploy.
+1. Import this repo to Vercel with **Root Directory** set to `client`.
+2. Add production env var:
+- `VITE_API_URL=https://api.ayushjungkunwar.com.np/api`
+3. Deploy.
+4. In Vercel domains, add:
+- `ayushjungkunwar.com.np`
+- `www.ayushjungkunwar.com.np`
+5. In your DNS provider, add the root (`@`) and `www` records exactly as Vercel provides for this project.
 
-`client/vercel.json` is already added for SPA rewrites, so direct route refreshes (for example `/admin`) work in production.
+`client/vercel.json` already handles SPA rewrites, so direct refresh on routes like `/admin` works in production.
 
-### 3. Finalize CORS
+### 3. Final Checks
 
-After Vercel gives the final URL/custom domain, update Render:
-- `FRONTEND_URL=https://your-final-domain.com,https://your-vercel-project.vercel.app`
-
-Use comma-separated values if you want multiple allowed origins.
-
-### 4. Post-Deploy Checks
-
-Verify these URLs:
-- `GET https://your-api.onrender.com/api/health`
-- `GET https://your-api.onrender.com/api/portfolio`
-- Frontend load and contact form submission on Vercel
-- Admin login at `https://your-vercel-domain/admin`
+Verify these live URLs after DNS propagation:
+- `GET https://api.ayushjungkunwar.com.np/api/health`
+- `GET https://api.ayushjungkunwar.com.np/api/portfolio`
+- `https://ayushjungkunwar.com.np`
+- `https://ayushjungkunwar.com.np/admin`
 
 ## Production Env Templates
 
@@ -118,6 +123,18 @@ Verify these URLs:
 
 Uploads are returned as full backend URLs and work with split domains (Vercel + Render).  
 Render local disk is ephemeral by default, so uploaded files can be lost on restart/redeploy. For durable storage, move uploads to object storage (S3/Cloudinary/etc.).
+
+## Runtime Troubleshooting (Render)
+
+If logs show `node src/server.js` then exit with status `1` after ~15-30s, the most common root causes are:
+- Missing or invalid `MONGODB_URI` in Render environment variables
+- MongoDB Atlas network access not allowing Render traffic
+
+Fix checklist:
+1. Set `MONGODB_URI` in Render with the real password (no `<db_password>` placeholder).
+2. In Atlas, add Network Access entry `0.0.0.0/0` (or a strict allowlist that includes Render egress).
+3. Confirm Atlas DB user credentials are correct for that cluster/database.
+4. Redeploy and verify `GET /api/health`.
 
 ## Default Admin Login
 

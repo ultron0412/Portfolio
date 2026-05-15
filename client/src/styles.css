@@ -52,7 +52,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-body);
-  line-height: 1.65;
+  line-height: 1.6;
   color: var(--text-primary);
   background:
     radial-gradient(48% 48% at 90% 84%, rgba(18, 174, 255, 0.28), transparent 68%),
@@ -169,15 +169,15 @@ select {
 .header-row {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.5rem;
 }
 
 .brand-mark {
   color: var(--text-primary);
-  font-size: 1.08rem;
+  font-size: 1.05rem;
   font-weight: 800;
-  letter-spacing: 0.02em;
-  margin-right: 0.38rem;
+  letter-spacing: 0.01em;
+  margin-right: 0.3rem;
 }
 
 .brand-mark:hover {
@@ -187,7 +187,7 @@ select {
 
 .section-nav {
   display: flex;
-  gap: 0.34rem;
+  gap: 0.3rem;
   align-items: center;
   flex: 1;
 }
@@ -196,8 +196,8 @@ select {
   color: var(--text-secondary);
   border: 1px solid transparent;
   border-radius: 8px;
-  padding: 0.4rem 0.75rem;
-  font-size: 0.8rem;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.775rem;
   font-weight: 500;
   transition:
     border-color 160ms ease,
@@ -255,12 +255,12 @@ select {
 
 .admin-link {
   width: auto !important;
-  min-width: 66px;
-  padding: 0 0.56rem;
-  gap: 0.34rem;
+  min-width: 62px;
+  padding: 0 0.5rem;
+  gap: 0.3rem;
   display: inline-flex !important;
   align-items: center;
-  font-size: 0.74rem;
+  font-size: 0.7rem;
   font-weight: 700;
 }
 
@@ -286,7 +286,7 @@ select {
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-  padding: 1.05rem 0.2rem;
+  padding: 1rem 0;
   transition: none;
 }
 
@@ -343,9 +343,9 @@ select {
 
 .hero-kicker {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .hero-kicker span,
@@ -354,13 +354,13 @@ select {
 }
 
 .hero-text h1 {
-  margin-top: 0.45rem;
-  font-size: clamp(2.1rem, 4.8vw, 3.6rem);
+  margin-top: 0.4rem;
+  font-size: clamp(2rem, 4.7vw, 3.4rem);
 }
 
 .hero-text h3 {
-  margin-top: 0.45rem;
-  font-size: clamp(1.15rem, 2.5vw, 1.55rem);
+  margin-top: 0.4rem;
+  font-size: clamp(1.1rem, 2.4vw, 1.45rem);
 }
 
 .hero-summary {
@@ -371,17 +371,17 @@ select {
 }
 
 .hero-cta-row {
-  margin-top: 1.28rem;
+  margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.58rem;
+  gap: 0.5rem;
 }
 
 .hero-social-row {
-  margin-top: 1.32rem;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .hero-social-link {
@@ -411,10 +411,10 @@ select {
 
 .hero-portrait-frame {
   position: relative;
-  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
-  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  border-radius: 16px;
   overflow: hidden;
-  min-height: 520px;
+  min-height: 500px;
   background: linear-gradient(140deg, #17344f, #0c2438 56%, #081e31);
 }
 
@@ -469,13 +469,15 @@ select {
 }
 
 .about-content h3 {
-  font-size: clamp(1.12rem, 2.2vw, 1.4rem);
+  font-size: clamp(1.05rem, 2.1vw, 1.3rem);
   color: var(--accent);
+  font-weight: 600;
 }
 
 .about-content p {
-  margin-top: 0.65rem;
+  margin-top: 0.6rem;
   color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .about-experience-card {
@@ -492,13 +494,14 @@ select {
 }
 
 .about-experience-card h4 {
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .about-meta {
-  margin: 0.28rem 0 0;
+  margin: 0.25rem 0 0;
   color: var(--text-muted) !important;
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
@@ -510,7 +513,7 @@ select {
 .about-experience-card li {
   margin-top: 0.3rem;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
 }
 
 .education-grid {
@@ -534,7 +537,8 @@ select {
 }
 
 .education-card h3 {
-  font-size: 1.08rem;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .education-degree {
@@ -552,10 +556,10 @@ select {
 }
 
 .skills-intro {
-  margin-top: 0.72rem;
+  margin-top: 0.8rem;
   color: var(--text-secondary);
   max-width: 68ch;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 
 .skills-radar-layout {
@@ -615,8 +619,8 @@ select {
 }
 
 .skills-radar-note {
-  margin: 0.7rem 0 0;
-  font-size: 0.8rem;
+  margin: 0.6rem 0 0;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
@@ -632,14 +636,14 @@ select {
 
 .skills-radar-legend-item {
   border: 1px solid var(--line);
-  border-radius: 11px;
-  padding: 0.46rem 0.6rem;
+  border-radius: 10px;
+  padding: 0.4rem 0.55rem;
   background: color-mix(in srgb, var(--bg-page) 72%, var(--bg-card-strong));
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.65rem;
-  font-size: 0.82rem;
+  gap: 0.6rem;
+  font-size: 0.78rem;
 }
 
 .skills-radar-legend-item span {
@@ -649,7 +653,7 @@ select {
 
 .skills-radar-legend-item strong {
   color: var(--accent);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
 }
 
 .project-grid {
@@ -671,7 +675,7 @@ select {
 
 .project-card:hover {
   border-color: var(--accent);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-soft);
 }
 
@@ -686,10 +690,10 @@ select {
   object-fit: cover;
   display: block;
   opacity: 0;
-  transform: scale(1.04);
+  transform: scale(1.03);
   transition:
-    opacity 340ms ease,
-    transform 340ms ease;
+    opacity 300ms ease,
+    transform 300ms ease;
 }
 
 .project-visual img.loaded {
@@ -698,7 +702,7 @@ select {
 }
 
 .project-card:hover .project-visual img.loaded {
-  transform: scale(1.035);
+  transform: scale(1.025);
 }
 
 .project-fallback {
@@ -707,7 +711,7 @@ select {
   place-items: center;
   color: var(--text-secondary);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .portfolio-content {
@@ -716,13 +720,14 @@ select {
 }
 
 .portfolio-content h3 {
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .portfolio-content p {
-  margin: 0.45rem 0 0;
+  margin: 0.4rem 0 0;
   color: var(--text-secondary);
-  font-size: 0.86rem;
+  font-size: 0.8rem;
 }
 
 .tag-row {
@@ -735,8 +740,8 @@ select {
 .tag-row span {
   border: 1px solid var(--line);
   border-radius: 6px;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.65rem;
   color: var(--text-secondary);
   background: color-mix(in srgb, var(--bg-card) 90%, var(--accent-soft));
   transition: all 160ms ease;
@@ -786,7 +791,7 @@ select {
 
 .certification-card:hover {
   border-color: var(--accent);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .certification-head {
@@ -797,7 +802,8 @@ select {
 }
 
 .certification-head h3 {
-  font-size: 1.02rem;
+  font-size: 0.98rem;
+  font-weight: 700;
 }
 
 .certification-head span {
@@ -808,9 +814,9 @@ select {
 }
 
 .certification-issuer {
-  margin: 0.45rem 0 0;
+  margin: 0.35rem 0 0;
   color: var(--text-secondary);
-  font-size: 0.86rem;
+  font-size: 0.8rem;
 }
 
 .certification-link {
@@ -819,9 +825,9 @@ select {
 }
 
 .certification-note {
-  margin: 0.62rem 0 0;
+  margin: 0.5rem 0 0;
   color: var(--text-muted);
-  font-size: 0.81rem;
+  font-size: 0.75rem;
 }
 
 .contact-layout {
@@ -835,7 +841,7 @@ select {
 .auth-form,
 .delete-form {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.7rem;
 }
 
 .contact-form label,
@@ -1079,7 +1085,8 @@ select {
 }
 
 .project-modal-card h3 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .project-modal-card p {

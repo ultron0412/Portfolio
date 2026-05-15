@@ -51,13 +51,13 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body> // The RootComponent is rendered inside the body, so we need to render the Scripts here to ensure they are included in the final HTML output.
         {children}
         <Scripts />
       </body>
     </html>
   );
-}
+}// The RootComponent is responsible for rendering the main layout of the application, including the header, footer, and the main content area where the child routes will be rendered. It also includes the floating background and handles the page transition animations using Framer Motion.
 
 function RootComponent() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
